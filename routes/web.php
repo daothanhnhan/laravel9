@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\CartItemController;
+use App\Http\Controllers\Admin\TuVungController;
+use App\Http\Controllers\Admin\TuVungConController;
 use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +125,7 @@ Route::prefix('admin')->group(function () {
 
 	    Route::get('config', [ConfigController::class, 'index'])->name('config.index');
 	    Route::patch('config', [ConfigController::class, 'update'])->name('config.update');
+	    Route::get('sitemap', [ConfigController::class, 'sitemap'])->name('config.sitemap');
 
 	    Route::resource('contacts', ContactController::class);
 
@@ -131,6 +134,14 @@ Route::prefix('admin')->group(function () {
 
 	    Route::get('cart-item/edit/{id}', [CartItemController::class, 'edit']);
 	    Route::get('cart-item/edit-total/{id}', [CartItemController::class, 'editTotal']);
+
+	    Route::get('tuvungs/state', [TuVungController::class, 'index_state'])->name('tuvungs.state');
+	    Route::get('tuvungs/change', [TuVungController::class, 'change_state'])->name('tuvungs.change');
+	    Route::resource('tuvungs', TuVungController::class);
+
+	    Route::get('tuvungcons/state', [TuVungConController::class, 'index_state'])->name('tuvungcons.state');
+	    Route::get('tuvungcons/change', [TuVungController::class, 'change_state'])->name('tuvungcons.change');
+	    Route::resource('tuvungcons', TuVungConController::class);
 	});
 });
 

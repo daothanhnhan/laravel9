@@ -161,4 +161,205 @@ class ConfigController extends Controller
         $data['menu_active'] = Together::check_url_menu();
         return view('admin/dashboard', $data);
     }
+
+    public function sitemap () {
+        $file = public_path().'/sitemap.xml';//echo $file;die;
+        // echo set_realpath($file, true);
+        // $data = 'Some file data';
+
+        // if (! write_file($file, $data)) {
+        //     echo 'Unable to write the file';
+        // } else {
+        //     echo 'File written!';
+        // }
+
+        ///////////////////
+        $doc = new \DOMDocument('1.0', 'utf-8');
+
+        $root = $doc->createElement('urlset');
+
+        $root->setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+        $root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+        $root->setAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
+
+        $doc->appendChild($root);
+
+        $url = $doc->createElement('url');
+
+        $root->appendChild($url);
+
+        $loc = $doc->createElement('loc');//dd($_SERVER);
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+        $domain = $protocol.'://'.$_SERVER['SERVER_NAME'];
+        $loc->nodeValue = $domain;
+        $url->appendChild($loc);
+
+        $lastmod = $doc->createElement('lastmod');
+        $date = date('Y-m-d\TH:i:s').'+00:00';
+        $lastmod->nodeValue = $date;
+        $url->appendChild($lastmod);
+
+        $priority = $doc->createElement('priority');
+        $priority->nodeValue = '1.00';
+        $url->appendChild($priority);
+
+        //////////////////////////////
+
+        $list_procat = DB::table('product_cats')->get();
+
+        foreach ($list_procat as $item) {
+         $url = $doc->createElement('url');
+         $root->appendChild($url);
+
+         $loc = $doc->createElement('loc');
+         $loc->nodeValue = $domain.'/danh-muc-san-pham/'.$item->slug;
+         $url->appendChild($loc);
+
+         $lastmod = $doc->createElement('lastmod');
+         $date = date('Y-m-d\TH:i:s').'+00:00';
+         $lastmod->nodeValue = $date;
+         $url->appendChild($lastmod);
+
+         $priority = $doc->createElement('priority');
+         $priority->nodeValue = '0.80';
+         $url->appendChild($priority);
+        }
+
+
+        //////////////////////////////
+
+        $list_pro = DB::table('products')->get();
+
+        foreach ($list_pro as $item) {
+         $url = $doc->createElement('url');
+         $root->appendChild($url);
+
+         $loc = $doc->createElement('loc');
+         $loc->nodeValue = $domain.'/san-pham/'.$item->slug;
+         $url->appendChild($loc);
+
+         $lastmod = $doc->createElement('lastmod');
+         $date = date('Y-m-d\TH:i:s').'+00:00';
+         $lastmod->nodeValue = $date;
+         $url->appendChild($lastmod);
+
+         $priority = $doc->createElement('priority');
+         $priority->nodeValue = '0.80';
+         $url->appendChild($priority);
+        }
+
+        //////////////////////////////
+        $list_newscat = DB::table('news_cats')->get();
+
+        foreach ($list_newscat as $item) {
+            $url = $doc->createElement('url');
+            $root->appendChild($url);
+
+            $loc = $doc->createElement('loc');
+            $loc->nodeValue = $domain.'/danh-muc-tin-tuc/'.$item->slug;
+            $url->appendChild($loc);
+
+            $lastmod = $doc->createElement('lastmod');
+            $date = date('Y-m-d\TH:i:s').'+00:00';
+            $lastmod->nodeValue = $date;
+            $url->appendChild($lastmod);
+
+            $priority = $doc->createElement('priority');
+            $priority->nodeValue = '0.80';
+            $url->appendChild($priority);
+        }
+        //////////////////////////////
+
+        $list_news = DB::table('posts')->get();
+
+        foreach ($list_news as $item) {
+            $url = $doc->createElement('url');
+            $root->appendChild($url);
+
+            $loc = $doc->createElement('loc');
+            $loc->nodeValue = $domain.'/tin-tuc/'.$item->slug;
+            $url->appendChild($loc);
+
+            $lastmod = $doc->createElement('lastmod');
+            $date = date('Y-m-d\TH:i:s').'+00:00';
+            $lastmod->nodeValue = $date;
+            $url->appendChild($lastmod);
+
+            $priority = $doc->createElement('priority');
+            $priority->nodeValue = '0.80';
+            $url->appendChild($priority);
+        }
+        //////////////////////////////
+        $list_page = DB::table('pages')->get();
+
+        foreach ($list_page as $item) {
+            $url = $doc->createElement('url');
+            $root->appendChild($url);
+
+            $loc = $doc->createElement('loc');
+            $loc->nodeValue = $domain.'/page/'.$item->slug;
+            $url->appendChild($loc);
+
+            $lastmod = $doc->createElement('lastmod');
+            $date = date('Y-m-d\TH:i:s').'+00:00';
+            $lastmod->nodeValue = $date;
+            $url->appendChild($lastmod);
+
+            $priority = $doc->createElement('priority');
+            $priority->nodeValue = '0.80';
+            $url->appendChild($priority);
+        }
+        //////////////////////////////
+        $url = $doc->createElement('url');
+            $root->appendChild($url);
+
+            $loc = $doc->createElement('loc');
+            $loc->nodeValue = $domain.'/sale';
+            $url->appendChild($loc);
+
+            $lastmod = $doc->createElement('lastmod');
+            $date = date('Y-m-d\TH:i:s').'+00:00';
+            $lastmod->nodeValue = $date;
+            $url->appendChild($lastmod);
+
+            $priority = $doc->createElement('priority');
+            $priority->nodeValue = '0.80';
+            $url->appendChild($priority);
+        //////////////////////////////
+        $url = $doc->createElement('url');
+            $root->appendChild($url);
+
+            $loc = $doc->createElement('loc');
+            $loc->nodeValue = $domain.'/tat-ca-san-pham';
+            $url->appendChild($loc);
+
+            $lastmod = $doc->createElement('lastmod');
+            $date = date('Y-m-d\TH:i:s').'+00:00';
+            $lastmod->nodeValue = $date;
+            $url->appendChild($lastmod);
+
+            $priority = $doc->createElement('priority');
+            $priority->nodeValue = '0.80';
+            $url->appendChild($priority);
+        //////////////////////////////
+        $url = $doc->createElement('url');
+            $root->appendChild($url);
+
+            $loc = $doc->createElement('loc');
+            $loc->nodeValue = $domain.'/tat-ca-tin-tuc';
+            $url->appendChild($loc);
+
+            $lastmod = $doc->createElement('lastmod');
+            $date = date('Y-m-d\TH:i:s').'+00:00';
+            $lastmod->nodeValue = $date;
+            $url->appendChild($lastmod);
+
+            $priority = $doc->createElement('priority');
+            $priority->nodeValue = '0.80';
+            $url->appendChild($priority);
+
+        $doc->save($file);
+
+        echo 'Tạo sitemap thanh cong';
+    }
 }
