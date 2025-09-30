@@ -140,7 +140,7 @@ Route::prefix('admin')->group(function () {
 	    Route::resource('tuvungs', TuVungController::class);
 
 	    Route::get('tuvungcons/state', [TuVungConController::class, 'index_state'])->name('tuvungcons.state');
-	    Route::get('tuvungcons/change', [TuVungController::class, 'change_state'])->name('tuvungcons.change');
+	    Route::get('tuvungcons/change', [TuVungConController::class, 'change_state'])->name('tuvungcons.change');
 	    Route::resource('tuvungcons', TuVungConController::class);
 	});
 });
